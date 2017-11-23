@@ -78,64 +78,94 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ({
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
     props: {
         beginzero: {
             type: Boolean,
-            default: () => true
+            default: function _default() {
+                return true;
+            }
         },
         datalabel: {
             type: String,
-            default: () => 'My dataset'
+            default: function _default() {
+                return 'My dataset';
+            }
         },
         labels: {
             type: Array,
-            default: () => ['first', 'second', 'third', 'fourth']
+            default: function _default() {
+                return ['first', 'second', 'third', 'fourth'];
+            }
         },
         data: {
             type: Array,
-            default: () => [40, 60, 45, 70]
+            default: function _default() {
+                return [40, 60, 45, 70];
+            }
         },
         width: {
             type: Number,
-            default: () => null
+            default: function _default() {
+                return null;
+            }
         },
         height: {
             type: Number,
-            default: () => null
+            default: function _default() {
+                return null;
+            }
         },
         bordercolor: {
-            default: () => "rgba(75,192,192,1)"
+            default: function _default() {
+                return "rgba(75,192,192,1)";
+            }
         },
         backgroundcolor: {
-            default: () => "rgba(75,192,192,0.4)"
+            default: function _default() {
+                return "rgba(75,192,192,0.4)";
+            }
         },
         scalesdisplay: {
             type: Boolean,
-            default: () => true
+            default: function _default() {
+                return true;
+            }
         },
         target: {
             type: String,
-            default: () => null
+            default: function _default() {
+                return null;
+            }
         },
         datasets: {
             type: Array,
-            default: () => null
+            default: function _default() {
+                return null;
+            }
         },
         option: {
             type: Object,
-            default: () => null
+            default: function _default() {
+                return null;
+            }
         },
         bind: {
             type: Boolean,
-            default: () => false
+            default: function _default() {
+                return false;
+            }
         }
     },
-    data() {
+    data: function data() {
         return {
             isDatasetsOverride: false,
             isOptionOverride: false,
@@ -161,9 +191,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         };
     },
+
     watch: {
         data: {
-            handler: function (val, oldVal) {
+            handler: function handler(val, oldVal) {
                 if (!this.isDatasetsOverride && this.bind) {
                     this.chart_data.datasets[0].data = this.data;
                     this.renderChart();
@@ -172,7 +203,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             deep: true
         },
         labels: {
-            handler: function (val, oldVal) {
+            handler: function handler(val, oldVal) {
                 if (this.bind) {
                     this.chart_data.labels = val;
                     this.renderChart();
@@ -181,12 +212,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             deep: true
         },
         datasets: {
-            handler: function (val, oldVal) {
+            handler: function handler(val, oldVal) {
+                var _this = this;
+
                 if (this.isDatasetsOverride && this.bind) {
                     this.cleanChart();
                     this.chart_data.datasets = val;
-                    this.sleep(5).then(() => {
-                        this.renderChart();
+                    this.sleep(5).then(function () {
+                        _this.renderChart();
                     });
                 }
             },
@@ -194,16 +227,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
-        sleep(time) {
-            return new Promise(resolve => setTimeout(resolve, time));
+        sleep: function sleep(time) {
+            return new Promise(function (resolve) {
+                return setTimeout(resolve, time);
+            });
         },
-        setDatasets() {
+        setDatasets: function setDatasets() {
             this.chart_data.datasets = this.datasets;
         },
-        setOption() {
+        setOption: function setOption() {
             this.options = this.option;
         },
-        initTargetCanvas() {
+        initTargetCanvas: function initTargetCanvas() {
             if (this.target == null) {
                 this.canvas = this.$refs.canvas;
                 this.context = this.$refs.canvas.getContext('2d');
@@ -216,10 +251,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.appendChart();
             }
         },
-        cleanChart() {
+        cleanChart: function cleanChart() {
             if (this.chart != null) this.chart.destroy();
         },
-        checkOverride() {
+        checkOverride: function checkOverride() {
             if (this.datasets != null) {
                 this.setDatasets();
                 this.isDatasetsOverride = true;
@@ -231,7 +266,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 // console.log('override the datasets');
             }
         },
-        renderChart() {
+        renderChart: function renderChart() {
             // console.log('renderChart');
             this.cleanChart();
             this.chart = new Chart(this.context, {
@@ -240,7 +275,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 options: this.options
             });
         },
-        appendChart() {
+        appendChart: function appendChart() {
             // console.log('appendChart');
             window.datasets[this.target].push(this.chart_data.datasets[0]);
             this.chart_data.datasets = window.datasets[this.target];
@@ -248,23 +283,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.renderChart();
             }
         },
-        checkSize() {
+        checkSize: function checkSize() {
             if ((this.width == null || this.height == null) && !this.isOptionOverride) {
                 this.options.responsive = true;
                 this.options.maintainAspectRatio = true;
             }
         }
     },
-    mounted() {
+    mounted: function mounted() {
         this.checkOverride();
         this.checkSize();
         this.initTargetCanvas();
     },
-    beforeDestroy() {
+    beforeDestroy: function beforeDestroy() {
         this.cleanChart();
         // console.log('Line Chart Before Destroy');
     }
-});
+};
 
 /***/ }),
 /* 1 */
@@ -471,19 +506,23 @@ module.exports = __vue_exports__
 
 /***/ }),
 /* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 //
 //
 //
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+exports.default = {
     mixins: [VueCharts.core.default],
-    data() {
+    data: function data() {
         return {
             type: 'bar',
             chart_data: {
@@ -499,37 +538,49 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         };
     }
-});
+};
 
 /***/ }),
 /* 9 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 //
 //
 //
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+exports.default = {
     mixins: [VueCharts.core.default],
     props: {
         backgroundcolor: {
-            default: () => ["#FF6384", "#36A2EB", "#FFCE56", "#00A600"]
+            default: function _default() {
+                return ["#FF6384", "#36A2EB", "#FFCE56", "#00A600"];
+            }
         },
         hoverbackgroundcolor: {
-            default: () => ["#FF6384", "#36A2EB", "#FFCE56", "#00A600"]
+            default: function _default() {
+                return ["#FF6384", "#36A2EB", "#FFCE56", "#00A600"];
+            }
         },
         bordercolor: {
-            default: () => "#fff"
+            default: function _default() {
+                return "#fff";
+            }
         },
         hoverbordercolor: {
-            default: () => ""
+            default: function _default() {
+                return "";
+            }
         }
     },
-    data() {
+    data: function data() {
         return {
             type: 'doughnut',
             chart_data: {
@@ -553,23 +604,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         };
     }
-});
+};
 
 /***/ }),
 /* 10 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 //
 //
 //
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+exports.default = {
     mixins: [VueCharts.core.default],
-    data() {
+    data: function data() {
         return {
             type: 'horizontalBar',
             chart_data: {
@@ -595,21 +650,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         };
     }
-});
+};
 
 /***/ }),
 /* 11 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 //
 //
 //
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+exports.default = {
     mixins: [VueCharts.core.default],
     props: {
         beginzero: {
@@ -622,34 +681,48 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         linetension: {
             type: Number,
-            default: () => 0.2
+            default: function _default() {
+                return 0.2;
+            }
         },
         pointbordercolor: {
             type: String,
-            default: () => "rgba(75,192,192,1)"
+            default: function _default() {
+                return "rgba(75,192,192,1)";
+            }
         },
         pointbackgroundcolor: {
             type: String,
-            default: () => "#fff"
+            default: function _default() {
+                return "#fff";
+            }
         },
         pointhoverbackgroundcolor: {
             type: String,
-            default: () => "rgba(75,192,192,1)"
+            default: function _default() {
+                return "rgba(75,192,192,1)";
+            }
         },
         pointhoverbordercolor: {
             type: String,
-            default: () => "rgba(220,220,220,1)"
+            default: function _default() {
+                return "rgba(220,220,220,1)";
+            }
         },
         pointborderwidth: {
             type: Number,
-            default: () => 1
+            default: function _default() {
+                return 1;
+            }
         },
         pointhoverborderwidth: {
             type: Number,
-            default: () => 2
+            default: function _default() {
+                return 2;
+            }
         }
     },
-    data() {
+    data: function data() {
         return {
             type: 'line',
             chart_data: {
@@ -680,37 +753,49 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         };
     }
-});
+};
 
 /***/ }),
 /* 12 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 //
 //
 //
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+exports.default = {
     mixins: [VueCharts.core.default],
     props: {
         backgroundcolor: {
-            default: () => ["#FF6384", "#36A2EB", "#FFCE56", "#00A600"]
+            default: function _default() {
+                return ["#FF6384", "#36A2EB", "#FFCE56", "#00A600"];
+            }
         },
         hoverbackgroundcolor: {
-            default: () => ["#FF6384", "#36A2EB", "#FFCE56", "#00A600"]
+            default: function _default() {
+                return ["#FF6384", "#36A2EB", "#FFCE56", "#00A600"];
+            }
         },
         bordercolor: {
-            default: () => "#fff"
+            default: function _default() {
+                return "#fff";
+            }
         },
         hoverbordercolor: {
-            default: () => ""
+            default: function _default() {
+                return "";
+            }
         }
     },
-    data() {
+    data: function data() {
         return {
             type: 'pie',
             chart_data: {
@@ -734,31 +819,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         };
     }
-});
+};
 
 /***/ }),
 /* 13 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 //
 //
 //
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+exports.default = {
     mixins: [VueCharts.core.default],
     props: {
         hoverbackgroundcolor: {
-            default: () => "rgba(75,192,192,0.6)"
+            default: function _default() {
+                return "rgba(75,192,192,0.6)";
+            }
         },
         hoverbordercolor: {
-            default: () => "rgba(179,181,198,1)"
+            default: function _default() {
+                return "rgba(179,181,198,1)";
+            }
         }
     },
-    data() {
+    data: function data() {
         return {
             type: 'polarArea',
             chart_data: {
@@ -774,31 +867,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         };
     }
-});
+};
 
 /***/ }),
 /* 14 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 //
 //
 //
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+exports.default = {
     mixins: [VueCharts.core.default],
     props: {
         pointbordercolor: {
-            default: () => "#fff"
+            default: function _default() {
+                return "#fff";
+            }
         },
         pointbackgroundcolor: {
-            default: () => "rgba(179,181,198,1)"
+            default: function _default() {
+                return "rgba(179,181,198,1)";
+            }
         }
     },
-    data() {
+    data: function data() {
         return {
             type: 'radar',
             chart_data: {
@@ -824,11 +925,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         };
     }
-});
+};
 
 /***/ }),
 /* 15 */
 /***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 
 if (typeof Chart === "undefined") throw "ChartJS is undefined";
 // 4 kb here
